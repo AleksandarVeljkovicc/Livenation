@@ -4,6 +4,12 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
 }
+
+img{
+    max-width: 100%;
+    height: auto;
+}
+
 h1,h2,h3,h4,h5,h6{
 font-family: 'Oswald', sans-serif;
 font-weight: 500;
@@ -15,7 +21,7 @@ aside{
 
 main{
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     column-gap: 5px;
 }
 
@@ -23,26 +29,34 @@ footer{
     text-align: center;
     padding-top: 24px;
     padding-bottom: 36px;
-    background-color: #dedede;
-    color: darkred;
+    background-color: #B20000;
+    color: white;
     font-size: 30px;
 
 }
 
+header,
+#main_navigation,
+#main_banner,
+footer{
+    width: 100%;
+    box-sizing: border-box;
+}
+
 footer a {
-    color: darkred; 
+    color: white; 
     font-size: 30px;
     
 }
 
 footer a:hover {
-    color: #da2727; 
+    color: white; 
 }
 
 .aside_header{
     margin: 0;
     display: grid;
-    grid-template-columns: 1fr 111px;
+    grid-template-columns: minmax(0, 1fr) 111px;
 }
 
 
@@ -223,7 +237,12 @@ footer a:hover {
     display: flex;
     background-color: #B20000;
 }
-#main_navigation>a{
+.mobile_navigation{
+    display: flex;
+}
+#main_navigation>a,
+.mobile_navigation>a,
+.sidebar_toggle{
     display: block;
     padding: 8px;
     font-family: 'Oswald', sans-serif;
@@ -231,12 +250,48 @@ footer a:hover {
     font-size: 24px;
     margin-right: 16px;
 }
-#main_navigation>a:link, #main_navigation>a:visited{
+#main_navigation>a:link,
+#main_navigation>a:visited,
+.mobile_navigation>a:link,
+.mobile_navigation>a:visited,
+.sidebar_toggle{
     color: white;
 }
 
-#main_navigation>a:active, #main_navigation>a:hover{
+#main_navigation>a:active,
+#main_navigation>a:hover,
+.mobile_navigation>a:active,
+.mobile_navigation>a:hover,
+.sidebar_toggle:hover{
     color: black;
+}
+
+.mobile_menu_toggle,
+.sidebar_toggle,
+.aside_close_button{
+    border: 0;
+    cursor: pointer;
+}
+
+.mobile_menu_toggle,
+.aside_close_button{
+    display: none;
+}
+
+.sidebar_toggle{
+    display: none;
+}
+
+.visually-hidden{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 #managment{
@@ -262,11 +317,12 @@ footer a:hover {
 }
 #newsletter_form{
     display: grid;
-    grid-template-columns: 6fr 2fr;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 2fr);
     column-gap: 8px;
     padding-right: 10px;
     margin-top: 8px;
     margin-bottom: 8px;
+    box-sizing: border-box;
 }
 #newsletter_form>input{
     display: block;
@@ -295,4 +351,189 @@ footer a:hover {
     justify-content: space-evenly;
     align-items: center;
     margin-top: 8px;
+}
+
+@media (max-width: 900px){
+    main{
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 16px;
+    }
+
+    #main_content{
+        border-right: 0;
+        border-bottom: 1px dotted #B20000;
+    }
+
+    aside{
+        padding: 5px;
+    }
+
+    #managment{
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .manager{
+        flex: 1 1 200px;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 700px){
+    #main_navigation{
+        display: block;
+    }
+
+    .mobile_menu_toggle{
+        display: flex;
+        width: 100%;
+        min-height: 52px;
+        align-items: center;
+        justify-content: center;
+        background-color: #B20000;
+        color: white;
+        font-size: 26px;
+    }
+
+    .mobile_navigation{
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 4px 12px 12px;
+        background-color: #B20000;
+    }
+
+    .mobile_navigation.is-open{
+        display: flex;
+    }
+
+    .mobile_navigation>a,
+    .sidebar_toggle{
+        margin: 0;
+        padding: 10px 8px;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    .sidebar_toggle{
+        display: block;
+        margin-top: 6px;
+        border: 1px solid white;
+        background: transparent;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    #aside_backdrop{
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        background-color: rgb(0 0 0 / 55%);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    aside{
+        position: fixed;
+        z-index: 1001;
+        top: 0;
+        right: 0;
+        width: min(88vw, 380px);
+        height: 100vh;
+        height: 100dvh;
+        padding: 56px 12px 20px;
+        overflow-y: auto;
+        background-color: white;
+        box-shadow: -8px 0 24px rgb(0 0 0 / 20%);
+        transform: translateX(105%);
+        transition: transform 700ms ease;
+        will-change: transform;
+    }
+
+    .aside_close_button{
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        background: #B20000;
+        color: white;
+        font-size: 22px;
+    }
+
+    body.aside-open{
+        overflow: hidden;
+    }
+
+    body.aside-open #aside_backdrop{
+        opacity: 1;
+        visibility: visible;
+    }
+
+    body.aside-open aside{
+        transform: translateX(0);
+    }
+
+    #main_banner{
+        min-height: 240px;
+        height: auto;
+        padding: 32px 16px;
+        text-align: center;
+    }
+
+    #main_banner h1{
+        font-size: clamp(56px, 16vw, 96px);
+    }
+
+    #main_banner h2{
+        font-size: clamp(22px, 6vw, 36px);
+        letter-spacing: 2px;
+    }
+
+    .event_row{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .event_row .text_right{
+        text-align: left;
+    }
+
+    #contact_form input,
+    #contact_form textarea{
+        width: 100%;
+    }
+
+    footer{
+        padding: 20px 12px 28px;
+        font-size: 20px;
+    }
+
+    footer a{
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 400px){
+    .aside_header{
+        grid-template-columns: minmax(0, 1fr) 72px;
+    }
+
+    .aside_header_text{
+        font-size: 24px;
+    }
+
+    .event_row{
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    #aside_backdrop,
+    aside{
+        transition-duration: 0.01ms;
+    }
 }
